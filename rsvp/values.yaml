@@ -1,37 +1,27 @@
 # Default values for rsvp.
 # This is a YAML-formatted file.
 # Declare variables to be passed into your templates.
-#replicaCount: 1
-#image:
-#  repository: nginx
-#  tag: stable
-#  pullPolicy: IfNotPresent
-#service:
-#  name: nginx
-#  type: ClusterIP
-#  externalPort: 80
-#  internalPort: 80
-# ingress:
-#  enabled: false
-  # Used to create an Ingress record.
-#  hosts:
-#    - chart-example.local
-#  annotations:
-    # kubernetes.io/ingress.class: nginx
-    # kubernetes.io/tls-acme: "true"
-#  tls:
-    # Secrets must be manually created in the namespace.
-    # - secretName: chart-example-tls
-    #   hosts:
-    #     - chart-example.local
-# resources: {}
-  # We usually recommend not to specify default resources and to leave this as a conscious
-  # choice for the user. This also increases chances charts run on environments with little
-  # resources, such as Minikube. If you do want to specify resources, uncomment the following
-  # lines, adjust them as necessary, and remove the curly braces after 'resources:'.
-  # limits:
-  #  cpu: 100m
-  #  memory: 128Mi
-  # requests:
-  #  cpu: 100m
-  #  memory: 128Mi
+replicaCount: 1
+image:
+  repository: teamcloudyuga/rsvpapp
+  tag: mooc
+  pullPolicy: IfNotPresent
+service:
+  name: rsvp
+  type: NodePort
+  externalPort: 80
+  internalPort: 5000
+env:
+  MONGODB_HOST: mongodb
+
+mongoimage:
+  repository: mongo
+  tag: 3.3
+  pullPolicy: IfNotPresent
+mongoservice:
+  name: mongodb
+  type: ClusterIP
+  externalPort: 27017
+  internalPort: 27017
+mongoenv:
+  MONGODB_DATABASE: rsvpdata

@@ -1,0 +1,45 @@
+apiVersion: extensions/v1beta1
+kind: Deployment
+metadata:
+  name: {{ .Values.dbservice.name }}
+  labels:
+    app: {{ .Values.dbservice.name }}
+    chart: {{ .Values.dbservice.name }}-{{ .Chart.Version | replace "+" "_" }}
+    release: {{ .Release.Name }}
+    heritage: {{ .Release.Service }}
+spec:
+  template:
+    metadata:
+      labels:
+        app: {{ .Values.dbservice.name }}
+        release: {{ .Release.Name }}
+    spec:
+      containers:
+        - name: {{ .Values.dbservice.name }}
+          image: "{{ .Values.dbimage.repository }}"
+          imagePullPolicy: {{ .Values.dbimage.pullPolicy }}
+          env:
+          {{- range $key, $value := .Values.dbenv }}
+          - name: "{{ $key }}"
+            value: "{{ $value }}"
+          {{- end }}
+          ports:
+            - containerPort: {{ .Values.dbservice.internalPort }}
+          volumeMounts:
+           - name: {{ .Values.volume.vol1 }}
+             mountPath: {{ .Values.dbimage.path1 }}
+           - name: {{ .Values.volume.vol2 }}
+             mountPath: {{ .Values.dbimage.path2 }}
+      volumes:
+        - name: {{ .Values.volume.vol1 }}
+          emptyDir: {}
+        - name: {{ .Values.volume.vol2 }}
+          emptyDir: {}
+      initContainers:
+      - image: {{ .Values.dbinit.repository }}
+        name: {{ .Values.dbinit.name }}
+        volumeMounts:
+        - name: {{ .Values.volume.vol2 }}
+          mountPath: {{ .Values.dbinit.path }}
+        command: {{ .Values.dbinit.command }}
+

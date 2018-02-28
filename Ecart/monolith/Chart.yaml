@@ -1,11 +1,10 @@
-name: rsvp
-namem: mongodb
+name: monolith
 version: 1.0.0
 appVersion: 1.0.0
-description: RSVP Application
+description: Ecart Application
 maintainers:
 - name: Neependra
   email: neependra@cloudyuga.guru
 sources:
-- https://github.com/cloudyuga/rsvpapp
+- https://github.com/cloudyuga/e-cart
 

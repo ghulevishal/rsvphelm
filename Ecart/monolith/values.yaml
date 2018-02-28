@@ -1,0 +1,42 @@
+# Default values for rsvp.
+# This is a YAML-formatted file.
+# Declare variables to be passed into your templates.
+replicaCount: 1
+image:
+  repository: teamcloudyuga/ecart
+  tag: monolith
+  pullPolicy: IfNotPresent
+service:
+  name: app
+  type: NodePort
+  externalPort: 80
+  internalPort: 5000
+env:
+  MYSQL_DB_HOST: db
+  MYSQL_DB_PASSWORD: test
+
+dbimage:
+  repository: mariadb
+  pullPolicy: IfNotPresent
+  path1: /var/lib/mysql
+  path2: /docker-entrypoint-initdb.d
+
+dbinit:
+  name: initdb
+  repository: busybox
+  pullPolicy: IfNotPresent
+  path: /tmp/data
+  command: '["/bin/sh", "-c", "wget https://raw.githubusercontent.com/cloudyuga/e-cart/monolith/sqldump/data/db.sql -O /tmp/data/db.sql"]'
+
+dbservice:
+  name: db
+  type: ClusterIP
+  externalPort: 3306
+  internalPort: 3306
+dbenv:
+  MYSQL_ROOT_PASSWORD: test
+
+volume:
+  vol1: voldb
+  vol2: demo
+   

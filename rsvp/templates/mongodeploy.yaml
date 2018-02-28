@@ -1,0 +1,27 @@
+apiVersion: extensions/v1beta1
+kind: Deployment
+metadata:
+  name: {{ .Values.mongoservice.name }}
+  labels:
+    app: {{ .Values.mongoservice.name }}
+    chart: {{ .Values.mongoservice.name }}-{{ .Chart.Version | replace "+" "_" }}
+    release: {{ .Release.Name }}
+    heritage: {{ .Release.Service }}
+spec:
+  template:
+    metadata:
+      labels:
+        app: {{ .Values.mongoservice.name }}
+        release: {{ .Release.Name }}
+    spec:
+      containers:
+        - name: {{ .Values.mongoservice.name }}
+          image: "{{ .Values.mongoimage.repository }}:{{ .Values.mongoimage.tag }}"
+          imagePullPolicy: {{ .Values.mongoimage.pullPolicy }}
+          env:
+          {{- range $key, $value := .Values.mongoenv }}
+          - name: "{{ $key }}"
+            value: "{{ $value }}"
+          {{- end }}
+          ports:
+            - containerPort: {{ .Values.mongoservice.internalPort }}

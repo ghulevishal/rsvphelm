@@ -1,13 +1,18 @@
 apiVersion: v1
 kind: Service
 metadata:
-  name: mongodb
+  name: {{ .Values.mongoservice.name }}
   labels:
-    app: rsvpdb
+    app: {{ .Values.mongoservice.name }}
+    chart: {{ .Values.mongoservice.name}}-{{ .Chart.Version | replace "+" "_" }}
+    release: {{ .Release.Name }}
+    heritage: {{ .Release.Service }}
 spec:
+  type: {{ .Values.mongoservice.type }}
   ports:
-  - port: 27017
-    protocol: TCP
+    - port: {{ .Values.mongoservice.internalPort }}
+      protocol: TCP
+      name: {{ .Values.mongoservice.name }}
   selector:
-    appdb: rsvpdb
+    app: {{ .Values.mongoservice.name }}
 
