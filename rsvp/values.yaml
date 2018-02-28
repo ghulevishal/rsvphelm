@@ -4,8 +4,8 @@
 replicaCount: 1
 image:
   repository: teamcloudyuga/rsvpapp
-  tag: mooc
-  pullPolicy: IfNotPresent
+  tag: demo
+  pullPolicy: Always
 service:
   name: rsvp
   type: NodePort
