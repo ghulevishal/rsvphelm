@@ -1,0 +1,14 @@
+apiVersion: config.istio.io/v1alpha2
+kind: RouteRule
+metadata:
+  name: product-default
+spec:
+  destination:
+    name: productpage 
+  route:
+  - labels:
+      version: dev
+    weight: 0
+  - labels:
+      version: prod
+    weight: 100
