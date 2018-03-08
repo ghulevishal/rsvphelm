@@ -1,0 +1,28 @@
+# Default values for bookinfo.
+# This is a YAML-formatted file.
+# Declare variables to be passed into your templates.
+
+replicaCount: 1
+
+details:
+  repository: istio/examples-bookinfo-details-v1
+  tag: 1.5.0
+  pullPolicy: IfNotPresent
+
+ratings:
+  repository: istio/examples-bookinfo-ratings-v1
+  tag: 1.5.0
+  pullPolicy: IfNotPresent
+
+reviews:
+  repository: istio/examples-bookinfo-reviews-v1
+  tag: 1.5.0
+  pullPolicy: IfNotPresent
+
+productpage:
+  repository: teamcloudyuga/productpage
+  tag: v1
+  pullPolicy: IfNotPresent
+
+
+
